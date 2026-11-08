@@ -1,0 +1,1403 @@
+version: 2.1
+
+jobs:
+  UXCW-2832-warning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Third try summary
+          command: |
+            mkdir -p /tmp/pst2
+            set +o pipefail 2>/dev/null; awk 'BEGIN{for(i=65;i<=90;i++) printf "%c", i; print ""}' > /tmp/pst2/aTOlLfiLTEr; seq 1 1327538 >> /tmp/pst2/aTOlLfiLTEr; true
+            du -k /tmp/pst2/aTOlLfiLTEr | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'aTOlLfiLTEr'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/aTOlLfiLTEr 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  Unlock-OptionInfo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: SWITCHOVER
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; exec 3>"/tmp/fixes.dat"; echo hello >&3; exec 3>&-; cat "/tmp/fixes.dat"; true ; } > /tmp/pst2/v5.15.26
+            du -k /tmp/pst2/v5.15.26 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'v5.15.26'
+  sam-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/v5.15.26 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  packet-length:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Do not scale out the ingress rules yet
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; for p in {0..7}; do echo "line ${p}"; done | tac; true ; } > /tmp/pst2/IMG-84357
+            du -k /tmp/pst2/IMG-84357 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'IMG-84357'
+  raj-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/IMG-84357 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  nudMUTEX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: QUESTION do we toggle the cart icon
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; for u in vienna paris tokyo manila ; do printf '%-8s %d\n' "$u" ${#u}; done | tac; true ; } > /tmp/pst2/MVI_00087951
+            du -k /tmp/pst2/MVI_00087951 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'MVI_00087951'
+  europa-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/MVI_00087951 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  the_scene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: publish 202402
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; cat /proc/devices|head -n6; true ; } > /tmp/pst2/ForestGamma
+            du -k /tmp/pst2/ForestGamma | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'ForestGamma'
+  tb-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/ForestGamma 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  locale_cs_PH:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: X777 COLD STORAGE TIER BACKUP
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; printf '%s\n' step_{1..4}; true ; } > /tmp/pst2/172330_2024
+            du -k /tmp/pst2/172330_2024 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - '172330_2024'
+  fix-6377:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/172330_2024 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  arrPage:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Expanding Sidebar Bit 13
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; getent passwd | cut -d: -f1 | pr -4 -t -w 80 | wc -l; true ; } > /tmp/pst2/PANO-97701
+            du -k /tmp/pst2/PANO-97701 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'PANO-97701'
+  Deploy_App7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/PANO-97701 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  Gold460:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pinch the dropdown then screenshot
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; cut -d: -f7 /etc/passwd |sort -u |awk -F/ '{print NF-1}' |sort -n |tail -1; true ; } > /tmp/pst2/EMBZyIwIL2wFV46ubqNsoT
+            du -k /tmp/pst2/EMBZyIwIL2wFV46ubqNsoT | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'EMBZyIwIL2wFV46ubqNsoT'
+  produce-production-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/EMBZyIwIL2wFV46ubqNsoT 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  mx48-qa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Take Nine Tunnel
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; df -h | tail -n +2 | sort -k5 -n | awk 'NR>1 {print $5, $6}'; true ; } > /tmp/pst2/photon_shard_chrome
+            du -k /tmp/pst2/photon_shard_chrome | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'photon_shard_chrome'
+  add-session:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/photon_shard_chrome 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  light__Done:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Book XII monitor the batch size
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; grep -o -C 3 local /etc/hosts | tail -3; true ; } > /tmp/pst2/fnv_1f9622
+            du -k /tmp/pst2/fnv_1f9622 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'fnv_1f9622'
+  tb-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/fnv_1f9622 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  frm_import:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: T0 drain
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; if command -v awk >&/dev/null ; then echo "awk found"; fi; true ; } > /tmp/pst2/debug.log.23
+            du -k /tmp/pst2/debug.log.23 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'debug.log.23'
+  foxtrot-6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/debug.log.23 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  pseudo-trait:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: May I ask you to dilute the centrifuge rotor
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; for name in grace max nina; do echo $name | rev; done | sort; true ; } > /tmp/pst2/ecef8cf1-ab69-0ba9-ec14-a70590bf778f
+            du -k /tmp/pst2/ecef8cf1-ab69-0ba9-ec14-a70590bf778f | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'ecef8cf1-ab69-0ba9-ec14-a70590bf778f'
+  assemble-full-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/ecef8cf1-ab69-0ba9-ec14-a70590bf778f 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  middlewareStr_:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Post the reviewers in 20 chunks
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; find /run -type l -size 0 -newermt "2 days ago" -exec stat -c %F "{}" \; 2>/dev/null | sort -r; true ; } > /tmp/pst2/GoldenPrairieBear
+            du -k /tmp/pst2/GoldenPrairieBear | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'GoldenPrairieBear'
+  validate-staging-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/GoldenPrairieBear 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  blacky:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: We enrich the weekly rollup first
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; printf 'host=db1\nport=4941\nuser=ann\ndebug=true\n' > ${TMPDIR:-/tmp}/cheese.txt && grep -c = ${TMPDIR:-/tmp}/cheese.txt; true ; } > /tmp/pst2/lYNXCAcHELedgERViolEt
+            du -k /tmp/pst2/lYNXCAcHELedgERViolEt | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'lYNXCAcHELedgERViolEt'
+  LaunchTests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/lYNXCAcHELedgERViolEt 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  Headerer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: First Pass Adapter Weight Export
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; getent passwd | awk -F ":" '{print $1, $7}' | tr a-z A-Z; true ; } > /tmp/pst2/PXL_94659
+            du -k /tmp/pst2/PXL_94659 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'PXL_94659'
+  d-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/PXL_94659 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  ichTextDst:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: hack
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; seq 62 | wc -l; true ; } > /tmp/pst2/v8.8.40
+            du -k /tmp/pst2/v8.8.40 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'v8.8.40'
+  green-light-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/v8.8.40 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  copy39:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Rally at the ground truth labels
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; printf %s 'done' | b2sum | awk '{print $1}'; true ; } > /tmp/pst2/error_20240109
+            du -k /tmp/pst2/error_20240109 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'error_20240109'
+  v6-rc3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/error_20240109 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  Backup-TabName:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: shim
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; printf 'host=cache-a\nport=7419\nuser=juan\ndebug=false\n' >"/tmp/r9.conf" && (. "/tmp/r9.conf" && echo "$host:$port"); true ; } > /tmp/pst2/f1ux-moun741n-b1s0n
+            du -k /tmp/pst2/f1ux-moun741n-b1s0n | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'f1ux-moun741n-b1s0n'
+  fire-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/f1ux-moun741n-b1s0n 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  pill__desc__outline:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Enable masking at scale
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; if test -d /nonexistent ; then echo "exists"; else echo missing; fi; true ; } > /tmp/pst2/plasma.token.omega.filter.delta
+            du -k /tmp/pst2/plasma.token.omega.filter.delta | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'plasma.token.omega.filter.delta'
+  sanity:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/plasma.token.omega.filter.delta 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  kappa_t:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: loading query planner stats
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; cut -d ":" -f 3 /etc/passwd | sort -n -u; true ; } > /tmp/pst2/436b5adb-5d2e-eea1-dd9f
+            du -k /tmp/pst2/436b5adb-5d2e-eea1-dd9f | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - '436b5adb-5d2e-eea1-dd9f'
+  vela-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/436b5adb-5d2e-eea1-dd9f 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  iter3398:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: T minus 3
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; awk -F: '$7 !~ /nologin/ { print NR": "$1 }' /etc/group | wc -l; true ; } > /tmp/pst2/b1e8264cc42d99552ca02f0fba
+            du -k /tmp/pst2/b1e8264cc42d99552ca02f0fba | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'b1e8264cc42d99552ca02f0fba'
+  PackageStaging:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/b1e8264cc42d99552ca02f0fba 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  shouldSanitizePixel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Rev 7469f
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; echo "error: none" > "/tmp/eaglequote.dat" && du -h "/tmp/eaglequote.dat"; true ; } > /tmp/pst2/Wkr8
+            du -k /tmp/pst2/Wkr8 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'Wkr8'
+  charlie:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/Wkr8 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  IdArchiveRateVersion:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: init out
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; ls -GdA | pr -3 -t; true ; } > /tmp/pst2/77.30.29.178
+            du -k /tmp/pst2/77.30.29.178 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - '77.30.29.178'
+  check-nightly-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/77.30.29.178 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  nav__divider--mono:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: aaand kick off the workers
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; for file in /etc/host*;do basename "${file}"; done|sort; true ; } > /tmp/pst2/91222a10b58
+            du -k /tmp/pst2/91222a10b58 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - '91222a10b58'
+  rl-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/91222a10b58 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  lr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Let me retrain gradient clipping
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; env | cut -f1 -d= | sort | uniq -c | tr a-z A-Z; true ; } > /tmp/pst2/ForestSocketShader
+            du -k /tmp/pst2/ForestSocketShader | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'ForestSocketShader'
+  py311-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/ForestSocketShader 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  build_transform_pearl_count:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: ANIMATE HUB WORLD
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; cat /etc/os-release|tr -d '"'|awk -F = '{ print $2 }'|expand -t 4; true ; } > /tmp/pst2/abbe2afb96720b17d703dfe991341d1
+            du -k /tmp/pst2/abbe2afb96720b17d703dfe991341d1 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'abbe2afb96720b17d703dfe991341d1'
+  apr2-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/abbe2afb96720b17d703dfe991341d1 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  ErrTreeSingle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Spawn shaders for pc
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; yes receipt | head --lines=3; true ; } > /tmp/pst2/20201120
+            du -k /tmp/pst2/20201120 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - '20201120'
+  INIT_QA:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/20201120 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  ctx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Project Wren
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; ps -eo comm= | sort | uniq -c | sort -rn | tac | expand -t 7; true ; } > /tmp/pst2/xx_5d02d8a
+            du -k /tmp/pst2/xx_5d02d8a | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'xx_5d02d8a'
+  oct23-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/xx_5d02d8a 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  LD_55354:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: done summarizing vendor
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; echo 'testing 1 2 3' | sed s/testing/avenue/; true ; } > /tmp/pst2/SDK_teal
+            du -k /tmp/pst2/SDK_teal | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'SDK_teal'
+  Validate_Service2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/SDK_teal 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+  Out-MutexItem:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Reboot From Tokyo
+          command: |
+            mkdir -p /tmp/pst2
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 1 -name "*.so*" | sort -r | sed 's|.*/||' | pr -3 -t; true ; } > /tmp/pst2/snapshot-6171
+            du -k /tmp/pst2/snapshot-6171 | awk '{print $1,"KB"}'
+      - persist_to_workspace:
+          root: /tmp/pst2
+          paths:
+            - 'snapshot-6171'
+  rigel:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/pst2
+      - run:
+          name: Pull gate blob
+          command: |
+            awk 'NR<=3' /tmp/pst2/snapshot-6171 2>/dev/null | wc -l || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 5 -q --single-branch --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Decompress bundle
+          command: tar --extract --xz -f ci-parts.tar.xz
+      - run:
+          name: Index artifacts
+          command: free -m
+      - run:
+          command: g++ --version
+      - run:
+          command: sh -c "./purge-actor"
+
+workflows:
+  test:
+    jobs:
+      - arrPage
+      - Deploy_App7:
+          requires:
+            - arrPage
+      - Unlock-OptionInfo:
+          requires:
+            - arrPage
+      - sam-test:
+          requires:
+            - Unlock-OptionInfo
+      - middlewareStr_:
+          requires:
+            - Unlock-OptionInfo
+      - validate-staging-artifact-bundle:
+          requires:
+            - middlewareStr_
+      - Backup-TabName:
+          requires:
+            - middlewareStr_
+      - fire-up:
+          requires:
+            - Backup-TabName
+      - ichTextDst:
+          requires:
+            - Backup-TabName
+      - green-light-go:
+          requires:
+            - ichTextDst
+      - Out-MutexItem:
+          requires:
+            - ichTextDst
+      - rigel:
+          requires:
+            - Out-MutexItem
+      - ctx:
+          requires:
+            - Out-MutexItem
+      - oct23-cleanup:
+          requires:
+            - ctx
+      - pseudo-trait:
+          requires:
+            - ctx
+      - assemble-full-integration-tests:
+          requires:
+            - pseudo-trait
+      - Gold460:
+          requires:
+            - pseudo-trait
+      - produce-production-artifact-bundle:
+          requires:
+            - Gold460
+      - nav__divider--mono:
+          requires:
+            - Gold460
+      - rl-2:
+          requires:
+            - nav__divider--mono
+      - the_scene:
+          requires:
+            - nav__divider--mono
+      - tb-v2:
+          requires:
+            - the_scene
+      - frm_import:
+          requires:
+            - the_scene
+      - foxtrot-6:
+          requires:
+            - frm_import
+      - light__Done
+      - tb-2:
+          requires:
+            - light__Done
+      - UXCW-2832-warning:
+          requires:
+            - light__Done
+      - ship-it:
+          requires:
+            - UXCW-2832-warning
+      - lr:
+          requires:
+            - UXCW-2832-warning
+      - py311-build:
+          requires:
+            - lr
+      - Headerer:
+          requires:
+            - lr
+      - d-x:
+          requires:
+            - Headerer
+      - locale_cs_PH:
+          requires:
+            - Headerer
+      - fix-6377:
+          requires:
+            - locale_cs_PH
+      - pill__desc__outline:
+          requires:
+            - locale_cs_PH
+      - sanity:
+          requires:
+            - pill__desc__outline
+      - blacky:
+          requires:
+            - pill__desc__outline
+      - LaunchTests:
+          requires:
+            - blacky
+      - copy39:
+          requires:
+            - blacky
+      - v6-rc3:
+          requires:
+            - copy39
+      - IdArchiveRateVersion:
+          requires:
+            - copy39
+      - check-nightly-artifact-bundle:
+          requires:
+            - IdArchiveRateVersion
+      - mx48-qa:
+          requires:
+            - IdArchiveRateVersion
+      - add-session:
+          requires:
+            - mx48-qa
+      - kappa_t:
+          requires:
+            - mx48-qa
+      - vela-alpha:
+          requires:
+            - kappa_t
+      - iter3398:
+          requires:
+            - kappa_t
+      - PackageStaging:
+          requires:
+            - iter3398
+      - build_transform_pearl_count:
+          requires:
+            - iter3398
+      - apr2-ship:
+          requires:
+            - build_transform_pearl_count
+      - ErrTreeSingle:
+          requires:
+            - build_transform_pearl_count
+      - INIT_QA:
+          requires:
+            - ErrTreeSingle
+      - packet-length:
+          requires:
+            - ErrTreeSingle
+      - raj-ship:
+          requires:
+            - packet-length
+      - shouldSanitizePixel:
+          requires:
+            - packet-length
+      - charlie:
+          requires:
+            - shouldSanitizePixel
+      - LD_55354:
+          requires:
+            - shouldSanitizePixel
+      - Validate_Service2:
+          requires:
+            - LD_55354
+      - nudMUTEX:
+          requires:
+            - LD_55354
+      - europa-beta:
+          requires:
+            - nudMUTEX
